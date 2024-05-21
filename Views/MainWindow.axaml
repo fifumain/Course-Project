@@ -18,7 +18,7 @@
     <Window.Styles>
         <Style Selector="TabControl">
             <Setter Property="Padding" Value="10"/>
-            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Margin" Value="20"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="CornerRadius" Value="5"/>
@@ -79,13 +79,19 @@
                     <!-- Кнопки -->
                     <Button x:Name="bAddSupplier"
                             Command="{Binding AddSupplierCommand}"
-                            Content="Новий постачальник"/>
+                            Content="Новий постачальник"  Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
                     <Button x:Name="bEditSupplier"
                             Command="{Binding EditSupplierCommand}"
-                            Content="Редагувати"/>
+                            Content="Редагувати"  Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
                     <Button x:Name="bDeleteSupplier"
                             Command="{Binding DeleteSupplierCommand}"
-                            Content="Видалити"/>
+                            Content="Видалити"  Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
 
                 </StackPanel>
             </Grid>
@@ -112,13 +118,19 @@
                     <!-- Кнопки -->
                     <Button x:Name="bAddSupplier2"
                             Command="{Binding AddProductCommand}"
-                            Content="Додати"/>
+                            Content="Додати"  Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
                     <Button x:Name="bEditSupplier2"
                             Command="{Binding EditProductCommand}"
-                            Content="Змінити"/>
+                            Content="Змінити"  Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
                     <Button x:Name="bDeleteSupplier2"
                             Command="{Binding DeleteProductCommand}"
-                            Content="Видалити"/>
+                            Content="Видалити"  Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
   <!-- TextBox для введення назви продукту -->
     <TextBox Watermark="Назва" 
              Text="{Binding SearchProductTitle}"
@@ -177,25 +189,31 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- DataGrid у першому стовпці -->
-                <DataGrid x:Name="gDataGrid"
-                          SelectedItem="{Binding SelectItem}"
+                <DataGrid x:Name="DataGrid123"
+                          SelectedItem="{Binding SelectItemr}"
                           ItemsSource="{Binding TheResource}" ColumnWidth="*"/>
 
                 <!-- StackPanel з кнопками у другому стовпці -->
                 <StackPanel Grid.Column="1"
                             Orientation="Vertical"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Top">
+                            VerticalAlignment="Top" >
                     <!-- Кнопки -->
                     <Button x:Name="bAddResource"
                             Command="{Binding AddResourceCommand}"
-                            Content="Новий матеріал"/>
+                            Content="Новий матеріал" Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
                     <Button x:Name="bEditResource"
                             Command="{Binding EditResourceCommand}"
-                            Content="Редагувати"/>
+                            Content="Редагувати" Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
                     <Button x:Name="bDeleteResource"
                             Command="{Binding DeleteResourceCommand}"
-                            Content="Видалити"/>
+                            Content="Видалити" Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
 
                 </StackPanel>
             </Grid>

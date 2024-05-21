@@ -29,12 +29,12 @@ namespace course_project_filip.ViewModels
 		public Products TheProduct { get; } = new Products();
 		public Interaction<AddProductViewModel, Product?> ShowDialogp { get; }
 		
-		        // Властивості для продуктів
-        public ICommand AddResourceommand { get; }
-        public ICommand EditResourceCommand { get; }
-        public ICommand DeleteResourceCommand { get; }
-        public Resource TheResource { get; } = new Resource();
-        public Interaction<AddResourceViewModel, Resource?> ShowDialogr { get; }
+				// Властивості для продуктів
+		public ICommand AddResourceCommand { get; }
+		public ICommand EditResourceCommand { get; }
+		public ICommand DeleteResourceCommand { get; }
+		public Resources TheResource { get; } = new Resources();
+		public Interaction<AddResourceViewModel, Resource?> ShowDialogr { get; }
 
 		// Властивості для журналу
 		public Logs TheLog { get; } = new Logs();
@@ -80,7 +80,7 @@ namespace course_project_filip.ViewModels
 			// Ініціалізація взаємодії з діалогами
 			ShowDialog = new Interaction<AddSupplierViewModel, Supplier?>();
 			ShowDialogp = new Interaction<AddProductViewModel, Product?>();
-
+			ShowDialogr = new Interaction<AddResourceViewModel, Resource?>();
 			// Ініціалізація команд для додавання постачальників, продуктів та фільтрації продуктів
 			AddSupplierCommand = ReactiveCommand.CreateFromTask(async () =>
 			{
@@ -120,6 +120,28 @@ namespace course_project_filip.ViewModels
 					Database.Exec_SQL(insertProductSql);
 					Database.Exec_SQL(logSql);
 					TheProduct.Fill_Product();
+					TheLog.Fill_Logs();
+				}
+			});
+			
+			AddResourceCommand = ReactiveCommand.CreateFromTask(async () =>
+			{
+				var resource = new AddResourceViewModel();
+				resource.mode = "insert";
+				var result = await ShowDialogr.Handle(resource);
+				if (result != null)
+				{
+					string insertResourceSql = string.Format("INSERT INTO resources (Title, Quantity) " +
+						"VALUES ('{0}', '{1}');",
+						result.Title,  result.Quantity);
+
+					// Логіка для логування операції додавання продукту
+					string logSql = string.Format("INSERT INTO Logs (action, timestamp) VALUES ('Added resource: {0}', '{1}');",
+						result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+
+					Database.Exec_SQL(insertResourceSql);
+					Database.Exec_SQL(logSql);
+					TheResource.Fill_Resource();
 					TheLog.Fill_Logs();
 				}
 			});
@@ -173,6 +195,34 @@ namespace course_project_filip.ViewModels
 					}
 				}
 			});
+			
+			EditResourceCommand = ReactiveCommand.CreateFromTask(async () =>
+			{
+				if (SelectItemr != null)
+				{
+					var resource = new AddResourceViewModel();
+					resource.mode = "edit";
+					resource.ResourceItem = SelectItemr;
+					var result = await ShowDialogr.Handle(resource);
+					if (result != null)
+					{
+						string updateResourceSql = string.Format("UPDATE resources SET " +
+							"Title = '{0}', " +
+							"Quantity = '{3}' " +
+							"WHERE ResourceId = '{4}';",
+							result.Title, result.Quantity, SelectItemr.ResourceId);
+
+						// Логіка для логування операції редагування продукту
+						string logSql = string.Format("INSERT INTO Logs (Action, Timestamp) VALUES ('Edited product: {0}', '{1}');",
+							result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+
+						Database.Exec_SQL(updateResourceSql);
+						Database.Exec_SQL(logSql);
+						TheResource.Fill_Resource();
+						TheLog.Fill_Logs();
+					}
+				}
+			});
 
 			DeleteSupplierCommand = ReactiveCommand.CreateFromTask(async () =>
 			{
@@ -201,6 +251,23 @@ namespace course_project_filip.ViewModels
 					TheLog.Fill_Logs();
 				}
 			});
+			
+			DeleteResourceCommand = ReactiveCommand.CreateFromTask(async () =>
+			{
+				if (SelectItemr != null)
+				{
+					string deleteResourceSql = string.Format("DELETE FROM resources WHERE Title = '{0}';", SelectItemr.Title);
+
+					// Логіка для логування операції видалення продукту
+					string logSql = string.Format("INSERT INTO Logs (action, timestamp) VALUES ('Deleted resources: {0}', '{1}');",
+						SelectItemr.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+					Database.Exec_SQL(deleteResourceSql);
+					Database.Exec_SQL(logSql);
+					TheResource.Fill_Resource();
+					TheLog.Fill_Logs();
+				}
+			});
 
 			SelectRowCommand = ReactiveCommand.Create<Supplier>(Supplier =>
 			{
@@ -210,6 +277,11 @@ namespace course_project_filip.ViewModels
 			SelectRowCommand = ReactiveCommand.Create<Product>(product =>
 			{
 				SelectItemp = product;
+			});
+			
+			SelectRowCommand = ReactiveCommand.Create<Resource>(Resource =>
+			{
+				SelectItemr = Resource;
 			});
 
 			ClearDataCommand = ReactiveCommand.Create(() =>
@@ -244,6 +316,7 @@ namespace course_project_filip.ViewModels
 		// Властивості для обраного постачальника та продукту
 		Supplier _selectItem = null;
 		Product _selectItemp = null;
+		Resource _selectItemr = null;
 		public Supplier SelectItem
 		{
 			get { return _selectItem; }
@@ -263,6 +336,17 @@ namespace course_project_filip.ViewModels
 				if (_selectItemp != value)
 				{
 					this.RaiseAndSetIfChanged(ref _selectItemp, value);
+				}
+			}
+		}
+		public Resource SelectItemr
+		{
+			get { return _selectItemr; }
+			set
+			{
+				if (_selectItemr != value)
+				{
+				 this.RaiseAndSetIfChanged(ref _selectItemr, value);
 				}
 			}
 		}

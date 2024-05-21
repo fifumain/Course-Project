@@ -11,7 +11,7 @@ namespace course_project_filip.Views
 	public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 	{
 		public static String mPath = AppDomain.CurrentDomain.BaseDirectory;
-		public static String mDBPath = mPath + "Employee.db";
+		public static String mDBPath = mPath + "Course_Project.db";
 
 		private async Task DoShowDialogAsync(InteractionContext<AddSupplierViewModel, Supplier?> interaction)
 		{
