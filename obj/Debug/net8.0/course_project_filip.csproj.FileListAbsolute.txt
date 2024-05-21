@@ -1,0 +1,12 @@
+/Users/macbook/course_project_filip/obj/Debug/net8.0/course_project_filip.csproj.AssemblyReference.cache
+/Users/macbook/course_project_filip/obj/Debug/net8.0/Avalonia/Resources.Inputs.cache
+/Users/macbook/course_project_filip/obj/Debug/net8.0/Avalonia/resources
+/Users/macbook/course_project_filip/obj/Debug/net8.0/course_project_filip.GeneratedMSBuildEditorConfig.editorconfig
+/Users/macbook/course_project_filip/obj/Debug/net8.0/course_project_filip.AssemblyInfoInputs.cache
+/Users/macbook/course_project_filip/obj/Debug/net8.0/course_project_filip.AssemblyInfo.cs
+/Users/macbook/course_project_filip/obj/Debug/net8.0/course_project_filip.csproj.CoreCompileInputs.cache
+/Users/macbook/course_project_filip/obj/Debug/net8.0/Avalonia/references
+/Users/macbook/course_project_filip/obj/Debug/net8.0/Avalonia/original.dll
+/Users/macbook/course_project_filip/obj/Debug/net8.0/Avalonia/original.pdb
+/Users/macbook/course_project_filip/obj/Debug/net8.0/Avalonia/original.ref.dll
+/Users/macbook/course_project_filip/obj/Debug/net8.0/refint/course_project_filip.dll

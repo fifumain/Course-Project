@@ -1,0 +1,212 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:course_project_filip.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="850" Height="550"
+        x:Class="course_project_filip.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Пустовойтенко Ф. А. АКТАКІТ-21-3">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="TabControl">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Background" Value="#F5F5F5"/> <!-- Сероватий фон -->
+        </Style>
+        <Style Selector="TabItem">
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Margin" Value="15"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Width" Value="170"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Width" Value="170"/> <!-- Увеличиваем ширину кнопок -->
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#D3D3D3"/> <!-- Сероватий фон для кнопок -->
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/> <!-- Горизонтальное выравнивание по центру -->
+            <Setter Property="VerticalContentAlignment" Value="Center"/> <!-- Вертикальное выравнивание по центру -->
+        </Style>
+        <Style Selector="DataGrid">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="AutoGenerateColumns" Value="True"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+    </Window.Styles>
+
+    <TabControl Grid.Column="0">
+        <TabItem Header="Постачальники">
+            <Grid>
+                <!-- Перший стовпець Grid для таблиці -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*"/> <!-- 70% ширини -->
+                    <ColumnDefinition Width="20*"/> <!-- 30% ширини -->
+                </Grid.ColumnDefinitions>
+
+                <!-- DataGrid у першому стовпці -->
+                <DataGrid x:Name="gDataGrid"
+                          SelectedItem="{Binding SelectItem}"
+                          ItemsSource="{Binding TheSupplier}" ColumnWidth="*"/>
+
+                <!-- StackPanel з кнопками у другому стовпці -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+                    <!-- Кнопки -->
+                    <Button x:Name="bAddSupplier"
+                            Command="{Binding AddSupplierCommand}"
+                            Content="Новий постачальник"/>
+                    <Button x:Name="bEditSupplier"
+                            Command="{Binding EditSupplierCommand}"
+                            Content="Редагувати"/>
+                    <Button x:Name="bDeleteSupplier"
+                            Command="{Binding DeleteSupplierCommand}"
+                            Content="Видалити"/>
+
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Вироби">
+            <Grid>
+                <!-- Перший стовпець Grid для таблиці -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*"/> <!-- 70% ширини -->
+                    <ColumnDefinition Width="20*"/> <!-- 30% ширини -->
+                </Grid.ColumnDefinitions>
+
+                <!-- DataGrid у першому стовпці -->
+                <DataGrid Grid.Column="0"
+                          x:Name="gDataGrid22"
+                          SelectedItem="{Binding SelectItemp}"
+                          ItemsSource="{Binding FilteredProducts}" ColumnWidth="*"/>
+
+                <!-- StackPanel з кнопками у другому стовпці -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+                    <!-- Кнопки -->
+                    <Button x:Name="bAddSupplier2"
+                            Command="{Binding AddProductCommand}"
+                            Content="Додати"/>
+                    <Button x:Name="bEditSupplier2"
+                            Command="{Binding EditProductCommand}"
+                            Content="Змінити"/>
+                    <Button x:Name="bDeleteSupplier2"
+                            Command="{Binding DeleteProductCommand}"
+                            Content="Видалити"/>
+  <!-- TextBox для введення назви продукту -->
+    <TextBox Watermark="Назва" 
+             Text="{Binding SearchProductTitle}"
+             Margin="0,5,0,0"
+             Padding="5"
+             BorderThickness="1"
+             BorderBrush="LightGray"/>
+
+    <!-- TextBox для введення категорії продукту -->
+    <TextBox Watermark="Категорія" 
+             Text="{Binding SearchProductCategory}"
+             Margin="0,5,0,0"
+             Padding="5"
+             BorderThickness="1"
+             BorderBrush="LightGray"/>
+
+    <!-- TextBox для введення мінімальної ціни продукту -->
+    <TextBox Watermark="Мінімальна ціна" 
+             Text="{Binding SearchMinPrice}"
+             Margin="0,5,0,0"
+             Padding="5"
+             BorderThickness="1"
+             BorderBrush="LightGray"/>
+
+    <!-- TextBox для введення максимальної ціни продукту -->
+    <TextBox Watermark="Максимальна ціна" 
+             Text="{Binding SearchMaxPrice}"
+             Margin="0,5,0,0"
+             Padding="5"
+             BorderThickness="1"
+             BorderBrush="LightGray"/>
+
+    <!-- Кнопка для пошуку -->
+    <Button Content="Пошук" 
+            Command="{Binding SearchProductCommand}"
+            Margin="0,10,0,0"
+            Padding="5"
+            BorderThickness="1"/>
+
+    <!-- Кнопка для очищення даних -->
+    <Button Content="Очистити" 
+            Command="{Binding ClearDataCommand}"
+            Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
+
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Ресурси">
+  <Grid>
+                <!-- Перший стовпець Grid для таблиці -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*"/> <!-- 70% ширини -->
+                    <ColumnDefinition Width="20*"/> <!-- 30% ширини -->
+                </Grid.ColumnDefinitions>
+
+                <!-- DataGrid у першому стовпці -->
+                <DataGrid x:Name="gDataGrid"
+                          SelectedItem="{Binding SelectItem}"
+                          ItemsSource="{Binding TheResource}" ColumnWidth="*"/>
+
+                <!-- StackPanel з кнопками у другому стовпці -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+                    <!-- Кнопки -->
+                    <Button x:Name="bAddResource"
+                            Command="{Binding AddResourceCommand}"
+                            Content="Новий матеріал"/>
+                    <Button x:Name="bEditResource"
+                            Command="{Binding EditResourceCommand}"
+                            Content="Редагувати"/>
+                    <Button x:Name="bDeleteResource"
+                            Command="{Binding DeleteResourceCommand}"
+                            Content="Видалити"/>
+
+                </StackPanel>
+            </Grid>
+        </TabItem>
+<TabItem Header="Логування">
+    <Grid>
+        <!-- DataGrid для відображення логів -->
+        <DataGrid x:Name="gDataGridlog"
+                  ItemsSource="{Binding TheLog}"
+                  ColumnWidth="*"/>
+    </Grid>
+</TabItem>
+    </TabControl>
+</Window>

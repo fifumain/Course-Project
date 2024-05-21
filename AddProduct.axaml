@@ -1,0 +1,80 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Width="380" Height="250"
+		WindowStartupLocation="CenterOwner"	
+        x:Class="course_project_filip.AddProduct"
+		xmlns:vm="using:course_project_filip.ViewModels"
+		x:DataType="vm:AddProductViewModel"	
+        Title="AddProduct">
+	
+	<Grid ColumnDefinitions="160, 3, Auto"
+			  RowDefinitions="Auto,Auto,Auto,Auto,Auto, *"
+				 Margin="15,20,20,0">
+
+		<TextBlock Grid.Column="0"
+		   Grid.Row="0"
+		   HorizontalAlignment="Right"> Назва: </TextBlock>
+		<TextBlock Grid.Column="0"
+		   Grid.Row="1"
+		   HorizontalAlignment="Right"> Категорія: </TextBlock>
+		<TextBlock Grid.Column="0"
+		   Grid.Row="2"
+		   HorizontalAlignment="Right"> Ціна: </TextBlock>
+		<TextBlock Grid.Column="0"
+		   Grid.Row="3"
+		   HorizontalAlignment="Right"> Кількість: </TextBlock>
+
+		<TextBox x:Name="tTitle"
+		   Text="{Binding Title}"
+		   Grid.Column="2"
+		   Margin="0,0,0,3"
+		   Grid.Row="0"
+		   Width="150"
+		   HorizontalAlignment="Left"/>
+		<TextBox x:Name="tCategory"
+		   Text="{Binding Category}"
+		   Grid.Column="2"
+		   Margin="0,0,0,3"
+		   Grid.Row="1"
+		   Width="150"
+		   HorizontalAlignment="Left"/>
+		<TextBox x:Name="tPrice"
+		   Text="{Binding Price}"
+		   Grid.Column="2"
+		   Margin="0,0,0,3"
+		   Grid.Row="2"
+		   Width="150"
+		   HorizontalAlignment="Left"/>
+		<TextBox x:Name="tQuantity"
+		   Text="{Binding Quantity}"
+		   Grid.Column="2"
+		   Margin="0,0,0,3"
+		   Grid.Row="3"
+		   Width="150"
+		   HorizontalAlignment="Left"/>
+
+		<Button x:Name="bCancel"
+				Height="28"
+				Margin="10,0,0,15"
+				VerticalAlignment="Bottom"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Center"
+				Grid.Column="0"
+				Grid.Row="5">
+			Відмінити
+		</Button>
+		<Button x:Name="bSaveProduct"
+				Height="28"
+				Margin="10,0,0,15"
+				VerticalAlignment="Bottom"
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Center"
+				Command="{Binding SaveProduct}"
+				Grid.Column="2"
+				Grid.Row="5">
+			Зберегти продукт
+		</Button>
+	</Grid>
+</Window>
