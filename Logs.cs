@@ -34,7 +34,7 @@ namespace course_project_filip
             {
                 npgsql_conn.Open();
 
-                string sql = "SELECT * FROM Logs";
+                string sql = "SELECT * FROM Logs ORDER BY timestamp DESC";
 
                 using (NpgsqlCommand npgsql_cmd = new NpgsqlCommand(sql, npgsql_conn))
                 {

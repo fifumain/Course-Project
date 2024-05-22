@@ -29,10 +29,12 @@ namespace course_project_filip.ViewModels
 		public Products TheProduct { get; } = new Products();
 		public Interaction<AddProductViewModel, Product?> ShowDialogp { get; }
 		
-				// Властивості для продуктів
+				// Властивості для ресурсів
 		public ICommand AddResourceCommand { get; }
 		public ICommand EditResourceCommand { get; }
 		public ICommand DeleteResourceCommand { get; }
+		public ICommand SearchResourceCommand { get; }
+		public ICommand ClearDataCommandResource { get; }
 		public Resources TheResource { get; } = new Resources();
 		public Interaction<AddResourceViewModel, Resource?> ShowDialogr { get; }
 
@@ -46,6 +48,31 @@ namespace course_project_filip.ViewModels
 			get => _filteredProducts;
 			set => this.RaiseAndSetIfChanged(ref _filteredProducts, value);
 		}
+		
+		private ObservableCollection<Resource> _filteredResources;
+		public ObservableCollection<Resource> FilteredResources
+		{
+			get => _filteredResources;
+			set => this.RaiseAndSetIfChanged(ref _filteredResources, value);
+		}
+
+
+		private string _searchResourceTitle;
+		public string SearchResourceTitle
+		{
+			get => _searchResourceTitle;
+			set => this.RaiseAndSetIfChanged(ref _searchResourceTitle, value);
+		}
+
+		private string _searchResourceQuantity;
+		public string SearchResourceQuantity
+		{
+			get => _searchResourceQuantity;
+			set => this.RaiseAndSetIfChanged(ref _searchResourceQuantity, value);
+		}
+		/// 
+		/// 
+		///
 
 		private string _searchProductTitle;
 		public string SearchProductTitle
@@ -92,7 +119,7 @@ namespace course_project_filip.ViewModels
 					string sql = string.Format("INSERT INTO Supplier (title, info) " +
 							"VALUES ('{0}', '{1}');",
 							 result.Title, result.Info);
-					string logSql = string.Format("INSERT INTO Logs (action, timestamp) VALUES ('Added Supplier: {0} {1}', '{2}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Added Supplier: {0} {1}', '{2}');",
 							result.Title, result.Info, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 					Database.Exec_SQL(sql);
@@ -122,6 +149,7 @@ namespace course_project_filip.ViewModels
 					TheProduct.Fill_Product();
 					TheLog.Fill_Logs();
 				}
+				FilterProducts();
 			});
 			
 			AddResourceCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -144,6 +172,7 @@ namespace course_project_filip.ViewModels
 					TheResource.Fill_Resource();
 					TheLog.Fill_Logs();
 				}
+				FilterResources();
 			});
 
 			EditSupplierCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -194,6 +223,7 @@ namespace course_project_filip.ViewModels
 						TheLog.Fill_Logs();
 					}
 				}
+				FilterProducts();
 			});
 			
 			EditResourceCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -208,12 +238,12 @@ namespace course_project_filip.ViewModels
 					{
 						string updateResourceSql = string.Format("UPDATE resources SET " +
 							"Title = '{0}', " +
-							"Quantity = '{3}' " +
-							"WHERE ResourceId = '{4}';",
+							"Quantity = '{1}' " +
+							"WHERE ResourceId = '{2}';",
 							result.Title, result.Quantity, SelectItemr.ResourceId);
-
+						
 						// Логіка для логування операції редагування продукту
-						string logSql = string.Format("INSERT INTO Logs (Action, Timestamp) VALUES ('Edited product: {0}', '{1}');",
+						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Edited product: {0}', '{1}');",
 							result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 						Database.Exec_SQL(updateResourceSql);
@@ -222,6 +252,7 @@ namespace course_project_filip.ViewModels
 						TheLog.Fill_Logs();
 					}
 				}
+				FilterResources();
 			});
 
 			DeleteSupplierCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -250,6 +281,7 @@ namespace course_project_filip.ViewModels
 					TheProduct.Fill_Product();
 					TheLog.Fill_Logs();
 				}
+				FilterProducts();
 			});
 			
 			DeleteResourceCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -267,6 +299,7 @@ namespace course_project_filip.ViewModels
 					TheResource.Fill_Resource();
 					TheLog.Fill_Logs();
 				}
+				FilterResources();
 			});
 
 			SelectRowCommand = ReactiveCommand.Create<Supplier>(Supplier =>
@@ -293,8 +326,19 @@ namespace course_project_filip.ViewModels
 				FilteredProducts = new ObservableCollection<Product>(TheProduct);
 			});
 			SearchProductCommand = ReactiveCommand.Create(FilterProducts);
-
+			
 			FilterProducts();
+			
+			ClearDataCommandResource = ReactiveCommand.Create(() =>
+			{
+				SearchResourceTitle = string.Empty;
+				SearchResourceQuantity = null;
+				FilteredResources = new ObservableCollection<Resource>(TheResource);
+			});
+			SearchResourceCommand = ReactiveCommand.Create(FilterResources);
+
+			FilterResources();
+
 		}
 
 		// Метод для фільтрації продуктів
@@ -311,6 +355,20 @@ namespace course_project_filip.ViewModels
 			}).ToList();
 
 			FilteredProducts = new ObservableCollection<Product>(filtered);
+		}
+		
+			private void FilterResources()
+		{
+			var filtered = TheResource.Where(p =>
+			{
+				bool matchesTitle = string.IsNullOrEmpty(SearchResourceTitle) || p.Title.Contains(SearchResourceTitle, StringComparison.OrdinalIgnoreCase);
+				bool matchesQuantity = string.IsNullOrEmpty(SearchResourceQuantity) || p.Quantity >=decimal.Parse(SearchResourceQuantity);
+				
+
+				return matchesTitle && matchesQuantity;
+			}).ToList();
+
+			FilteredResources= new ObservableCollection<Resource>(filtered);
 		}
 
 		// Властивості для обраного постачальника та продукту

@@ -39,7 +39,7 @@ namespace course_project_filip
             {
                 npgsql_conn.Open();
 
-                string sql = "SELECT * FROM Products";
+                string sql = "SELECT * FROM Products ORDER BY ProductId";
                 
                 using (NpgsqlCommand npgsql_cmd = new NpgsqlCommand(sql, npgsql_conn))
                 {

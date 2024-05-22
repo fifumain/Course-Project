@@ -118,12 +118,12 @@
                     <!-- Кнопки -->
                     <Button x:Name="bAddSupplier2"
                             Command="{Binding AddProductCommand}"
-                            Content="Додати"  Margin="0,5,0,0"
+                            Content="Новий виріб"  Margin="0,5,0,0"
             Padding="5"
             BorderThickness="1"/>
                     <Button x:Name="bEditSupplier2"
                             Command="{Binding EditProductCommand}"
-                            Content="Змінити"  Margin="0,5,0,0"
+                            Content="Редагувати"  Margin="0,5,0,0"
             Padding="5"
             BorderThickness="1"/>
                     <Button x:Name="bDeleteSupplier2"
@@ -191,7 +191,7 @@
                 <!-- DataGrid у першому стовпці -->
                 <DataGrid x:Name="DataGrid123"
                           SelectedItem="{Binding SelectItemr}"
-                          ItemsSource="{Binding TheResource}" ColumnWidth="*"/>
+                          ItemsSource="{Binding FilteredResources}" ColumnWidth="*"/>
 
                 <!-- StackPanel з кнопками у другому стовпці -->
                 <StackPanel Grid.Column="1"
@@ -215,11 +215,45 @@
             Padding="5"
             BorderThickness="1"/>
 
+              <!-- TextBox для введення назви продукту -->
+    <TextBox Watermark="Назва" 
+             Text="{Binding SearchResourceTitle}"
+             Margin="0,5,0,0"
+             Padding="5"
+             BorderThickness="1"
+             BorderBrush="LightGray"/>
+
+ <!-- TextBox для введення мінімальної кількості продукту -->
+ 
+
+    <TextBox Watermark="Мінімальна кількість" 
+             Text="{Binding SearchResourceQuantity}"
+             Margin="0,5,0,0"
+             Padding="5"
+             BorderThickness="1"
+             BorderBrush="LightGray"/>
+
+   
+    <!-- Кнопка для пошуку -->
+    <Button Content="Пошук" 
+            Command="{Binding SearchResourceCommand}"
+            Margin="0,10,0,0"
+            Padding="5"
+            BorderThickness="1"/>
+
+    <!-- Кнопка для очищення даних -->
+    <Button Content="Очистити" 
+            Command="{Binding ClearDataCommandResource}"
+            Margin="0,5,0,0"
+            Padding="5"
+            BorderThickness="1"/>
                 </StackPanel>
             </Grid>
         </TabItem>
 <TabItem Header="Логування">
     <Grid>
+        <Grid.ColumnDefinitions>
+         </Grid.ColumnDefinitions>
         <!-- DataGrid для відображення логів -->
         <DataGrid x:Name="gDataGridlog"
                   ItemsSource="{Binding TheLog}"

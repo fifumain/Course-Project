@@ -7,6 +7,7 @@ using course_project_filip.ViewModels;
 using ReactiveUI;
 using System;
 using System.Reactive.Disposables;
+using Avalonia.Controls;
 
 namespace course_project_filip;
 
@@ -14,7 +15,7 @@ public partial class AddResource : ReactiveWindow<AddResourceViewModel>
 {
 	public AddResource()
 	{
-	    InitializeComponent();
+		InitializeComponent();
 		this.WhenActivated(OnActivated);
 		var bCancel = this.FindControl<Button>("bCancel");
 		bCancel.Click += BCancel_Click;
@@ -33,4 +34,6 @@ public partial class AddResource : ReactiveWindow<AddResourceViewModel>
 		{
 			Close(); // Закрываем текущее окно
 		}
+		
+		
 }

@@ -132,3 +132,4 @@
 /Users/macbook/course_project_filip/obj/Debug/net8.0/course_p.E11FDA44.Up2Date
 /Users/macbook/course_project_filip/obj/Debug/net8.0/course_project_filip.genruntimeconfig.cache
 /Users/macbook/course_project_filip/obj/Debug/net8.0/ref/course_project_filip.dll
+/Users/macbook/course_project_filip/obj/Debug/net8.0/course_project_filip.sourcelink.json
