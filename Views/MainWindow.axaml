@@ -52,7 +52,7 @@
         </Style>
         <Style Selector="DataGrid">
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="AutoGenerateColumns" Value="True"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
         </Style>
     </Window.Styles>
@@ -69,7 +69,12 @@
                 <!-- DataGrid у першому стовпці -->
                 <DataGrid x:Name="gDataGrid"
                           SelectedItem="{Binding SelectItem}"
-                          ItemsSource="{Binding TheSupplier}" ColumnWidth="*"/>
+                          ItemsSource="{Binding TheSupplier}" ColumnWidth="*">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Імʼя" Binding="{Binding Title}"/>
+                        <DataGridTextColumn Header="Інформація" Binding="{Binding Info}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
 
                 <!-- StackPanel з кнопками у другому стовпці -->
                 <StackPanel Grid.Column="1"
@@ -80,23 +85,23 @@
                     <Button x:Name="bAddSupplier"
                             Command="{Binding AddSupplierCommand}"
                             Content="Новий постачальник"  Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
                     <Button x:Name="bEditSupplier"
                             Command="{Binding EditSupplierCommand}"
                             Content="Редагувати"  Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
                     <Button x:Name="bDeleteSupplier"
                             Command="{Binding DeleteSupplierCommand}"
                             Content="Видалити"  Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
 
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="Вироби">
+        <TabItem Header="Павербанки">
             <Grid>
                 <!-- Перший стовпець Grid для таблиці -->
                 <Grid.ColumnDefinitions>
@@ -104,11 +109,18 @@
                     <ColumnDefinition Width="20*"/> <!-- 30% ширини -->
                 </Grid.ColumnDefinitions>
 
-                <!-- DataGrid у першому стовпці -->
-                <DataGrid Grid.Column="0"
-                          x:Name="gDataGrid22"
+                <!-- DataGrid у першому стовпці -->             
+                     <DataGrid x:Name="gDataGrid22"
                           SelectedItem="{Binding SelectItemp}"
-                          ItemsSource="{Binding FilteredProducts}" ColumnWidth="*"/>
+                          ItemsSource="{Binding FilteredProducts}" ColumnWidth="*">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Назва" Binding="{Binding Title}"/>
+                        <DataGridTextColumn Header="Ємність" Binding="{Binding Capacity}"/>
+                        <DataGridTextColumn Header="Кількість" Binding="{Binding Quantity}"/>
+                        <DataGridTextColumn Header="Ціна" Binding="{Binding Price}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
 
                 <!-- StackPanel з кнопками у другому стовпці -->
                 <StackPanel Grid.Column="1"
@@ -119,69 +131,69 @@
                     <Button x:Name="bAddSupplier2"
                             Command="{Binding AddProductCommand}"
                             Content="Новий виріб"  Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
                     <Button x:Name="bEditSupplier2"
                             Command="{Binding EditProductCommand}"
                             Content="Редагувати"  Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
                     <Button x:Name="bDeleteSupplier2"
                             Command="{Binding DeleteProductCommand}"
                             Content="Видалити"  Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
-  <!-- TextBox для введення назви продукту -->
-    <TextBox Watermark="Назва" 
-             Text="{Binding SearchProductTitle}"
-             Margin="0,5,0,0"
-             Padding="5"
-             BorderThickness="1"
-             BorderBrush="LightGray"/>
+                            Padding="5"
+                            BorderThickness="1"/>
+                    <!-- TextBox для введення назви продукту -->
+                    <TextBox Watermark="Назва" 
+                             Text="{Binding SearchProductTitle}"
+                             Margin="0,5,0,0"
+                             Padding="5"
+                             BorderThickness="1"
+                             BorderBrush="LightGray"/>
 
-    <!-- TextBox для введення категорії продукту -->
-    <TextBox Watermark="Категорія" 
-             Text="{Binding SearchProductCategory}"
-             Margin="0,5,0,0"
-             Padding="5"
-             BorderThickness="1"
-             BorderBrush="LightGray"/>
+                    <!-- TextBox для введення категорії продукту -->
+                    <TextBox Watermark="Ємність" 
+                             Text="{Binding SearchProductCapacity}"
+                             Margin="0,5,0,0"
+                             Padding="5"
+                             BorderThickness="1"
+                             BorderBrush="LightGray"/>
 
-    <!-- TextBox для введення мінімальної ціни продукту -->
-    <TextBox Watermark="Мінімальна ціна" 
-             Text="{Binding SearchMinPrice}"
-             Margin="0,5,0,0"
-             Padding="5"
-             BorderThickness="1"
-             BorderBrush="LightGray"/>
+                    <!-- TextBox для введення мінімальної ціни продукту -->
+                    <TextBox Watermark="Мінімальна ціна" 
+                             Text="{Binding SearchMinPrice}"
+                             Margin="0,5,0,0"
+                             Padding="5"
+                             BorderThickness="1"
+                             BorderBrush="LightGray"/>
 
-    <!-- TextBox для введення максимальної ціни продукту -->
-    <TextBox Watermark="Максимальна ціна" 
-             Text="{Binding SearchMaxPrice}"
-             Margin="0,5,0,0"
-             Padding="5"
-             BorderThickness="1"
-             BorderBrush="LightGray"/>
+                    <!-- TextBox для введення максимальної ціни продукту -->
+                    <TextBox Watermark="Максимальна ціна" 
+                             Text="{Binding SearchMaxPrice}"
+                             Margin="0,5,0,0"
+                             Padding="5"
+                             BorderThickness="1"
+                             BorderBrush="LightGray"/>
 
-    <!-- Кнопка для пошуку -->
-    <Button Content="Пошук" 
-            Command="{Binding SearchProductCommand}"
-            Margin="0,10,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                    <!-- Кнопка для пошуку -->
+                    <Button Content="Пошук" 
+                            Command="{Binding SearchProductCommand}"
+                            Margin="0,10,0,0"
+                            Padding="5"
+                            BorderThickness="1"/>
 
-    <!-- Кнопка для очищення даних -->
-    <Button Content="Очистити" 
-            Command="{Binding ClearDataCommand}"
-            Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
-
+                    <!-- Кнопка для очищення даних -->
+                    <Button Content="Очистити" 
+                            Command="{Binding ClearDataCommand}"
+                            Margin="0,5,0,0"
+                            Padding="5"
+                            BorderThickness="1"/>
                 </StackPanel>
             </Grid>
         </TabItem>
         <TabItem Header="Ресурси">
-  <Grid>
+            <!-- Содержимое таба для ресурсов с добавлением текстовых полей и кнопок для поиска и очистки -->
+            <Grid>
                 <!-- Перший стовпець Grid для таблиці -->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80*"/> <!-- 70% ширини -->
@@ -191,7 +203,13 @@
                 <!-- DataGrid у першому стовпці -->
                 <DataGrid x:Name="DataGrid123"
                           SelectedItem="{Binding SelectItemr}"
-                          ItemsSource="{Binding FilteredResources}" ColumnWidth="*"/>
+                          ItemsSource="{Binding FilteredResources}" ColumnWidth="*">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Назва" Binding="{Binding Title}"/>
+                        <DataGridTextColumn Header="Кількість" Binding="{Binding Quantity}"/>
+                        <DataGridTextColumn Header="Постачальник" Binding="{Binding SupplierName}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
 
                 <!-- StackPanel з кнопками у другому стовпці -->
                 <StackPanel Grid.Column="1"
@@ -202,63 +220,64 @@
                     <Button x:Name="bAddResource"
                             Command="{Binding AddResourceCommand}"
                             Content="Новий матеріал" Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
                     <Button x:Name="bEditResource"
                             Command="{Binding EditResourceCommand}"
                             Content="Редагувати" Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
                     <Button x:Name="bDeleteResource"
                             Command="{Binding DeleteResourceCommand}"
                             Content="Видалити" Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                            Padding="5"
+                            BorderThickness="1"/>
 
-              <!-- TextBox для введення назви продукту -->
-    <TextBox Watermark="Назва" 
-             Text="{Binding SearchResourceTitle}"
-             Margin="0,5,0,0"
-             Padding="5"
-             BorderThickness="1"
-             BorderBrush="LightGray"/>
+                    <!-- TextBox для введення назви ресурса -->
+                    <TextBox Watermark="Назва"
+                             Text="{Binding SearchResourceTitle}"
+                             Margin="0,5,0,0"
+                             Padding="5"
+                             BorderThickness="1"
+                             BorderBrush="LightGray"/>
 
- <!-- TextBox для введення мінімальної кількості продукту -->
- 
+                    <!-- TextBox для введення мінімальної кількості ресурса -->
+                    <TextBox Watermark="Мінімальна кількість"
+                             Text="{Binding SearchResourceQuantity}"
+                             Margin="0,5,0,0"
+                             Padding="5"
+                             BorderThickness="1"
+                             BorderBrush="LightGray"/>
 
-    <TextBox Watermark="Мінімальна кількість" 
-             Text="{Binding SearchResourceQuantity}"
-             Margin="0,5,0,0"
-             Padding="5"
-             BorderThickness="1"
-             BorderBrush="LightGray"/>
+                    <!-- Кнопка для пошуку -->
+                    <Button Content="Пошук"
+                            Command="{Binding SearchResourceCommand}"
+                            Margin="0,10,0,0"
+                            Padding="5"
+                            BorderThickness="1"/>
 
-   
-    <!-- Кнопка для пошуку -->
-    <Button Content="Пошук" 
-            Command="{Binding SearchResourceCommand}"
-            Margin="0,10,0,0"
-            Padding="5"
-            BorderThickness="1"/>
-
-    <!-- Кнопка для очищення даних -->
-    <Button Content="Очистити" 
-            Command="{Binding ClearDataCommandResource}"
-            Margin="0,5,0,0"
-            Padding="5"
-            BorderThickness="1"/>
+                    <!-- Кнопка для очищення даних -->
+                    <Button Content="Очистити"
+                            Command="{Binding ClearDataCommandResource}"
+                            Margin="0,5,0,0"
+                            Padding="5"
+                            BorderThickness="1"/>
                 </StackPanel>
             </Grid>
         </TabItem>
-<TabItem Header="Логування">
-    <Grid>
-        <Grid.ColumnDefinitions>
-         </Grid.ColumnDefinitions>
-        <!-- DataGrid для відображення логів -->
-        <DataGrid x:Name="gDataGridlog"
-                  ItemsSource="{Binding TheLog}"
-                  ColumnWidth="*"/>
-    </Grid>
-</TabItem>
+        <TabItem Header="Логування">
+            <StackPanel>
+               
+
+                <DataGrid  x:Name="gDataGridlog"
+                          ItemsSource="{Binding TheLog}" ColumnWidth="*">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Подія" Binding="{Binding Text}"/>
+<DataGridTextColumn Header="Дата" Binding="{Binding Timestamp, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </TabItem>
     </TabControl>
 </Window>

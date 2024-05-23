@@ -81,11 +81,11 @@ namespace course_project_filip.ViewModels
 			set => this.RaiseAndSetIfChanged(ref _searchProductTitle, value);
 		}
 
-		private string _searchProductCategory;
-		public string SearchProductCategory
+		private string _searchProductCapacity;
+		public string SearchProductCapacity
 		{
-			get => _searchProductCategory;
-			set => this.RaiseAndSetIfChanged(ref _searchProductCategory, value);
+			get => _searchProductCapacity;
+			set => this.RaiseAndSetIfChanged(ref _searchProductCapacity, value);
 		}
 
 		private string _searchMinPrice;
@@ -136,12 +136,12 @@ namespace course_project_filip.ViewModels
 				var result = await ShowDialogp.Handle(product);
 				if (result != null)
 				{
-					string insertProductSql = string.Format("INSERT INTO Products (Title, Category, Price, Quantity) " +
+					string insertProductSql = string.Format("INSERT INTO Products (Title, Capacity, Price, Quantity) " +
 						"VALUES ('{0}', '{1}', '{2}', '{3}');",
-						result.Title, result.Category, result.Price, result.Quantity);
+						result.Title, result.Capacity, result.Price, result.Quantity);
 
 					// Логіка для логування операції додавання продукту
-					string logSql = string.Format("INSERT INTO Logs (action, timestamp) VALUES ('Added product: {0}', '{1}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Added product: {0}', '{1}');",
 						result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 					Database.Exec_SQL(insertProductSql);
@@ -152,28 +152,34 @@ namespace course_project_filip.ViewModels
 				FilterProducts();
 			});
 			
-			AddResourceCommand = ReactiveCommand.CreateFromTask(async () =>
-			{
-				var resource = new AddResourceViewModel();
-				resource.mode = "insert";
-				var result = await ShowDialogr.Handle(resource);
-				if (result != null)
-				{
-					string insertResourceSql = string.Format("INSERT INTO resources (Title, Quantity) " +
-						"VALUES ('{0}', '{1}');",
-						result.Title,  result.Quantity);
+		AddResourceCommand = ReactiveCommand.CreateFromTask(async () =>
+{
+	var resource = new AddResourceViewModel();
+	resource.mode = "insert";
+	
+	// Отримання списку імен постачальників
+  
+	// Передача списку імен постачальників в модель представлення додавання ресурсу
 
-					// Логіка для логування операції додавання продукту
-					string logSql = string.Format("INSERT INTO Logs (action, timestamp) VALUES ('Added resource: {0}', '{1}');",
-						result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+	var result = await ShowDialogr.Handle(resource);
+	if (result != null)
+	{
+		string insertResourceSql = string.Format("INSERT INTO resources (Title, Quantity, Supplier_title) " +
+			"VALUES ('{0}', '{1}', '{2}');",
+			result.Title,  result.Quantity, result.SupplierName);
 
-					Database.Exec_SQL(insertResourceSql);
-					Database.Exec_SQL(logSql);
-					TheResource.Fill_Resource();
-					TheLog.Fill_Logs();
-				}
-				FilterResources();
-			});
+		// Логіка для логування операції додавання ресурсу
+		string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Added resource: {0}', '{1}');",
+			result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
+
+		Database.Exec_SQL(insertResourceSql);
+		Database.Exec_SQL(logSql);
+		TheResource.Fill_Resource();
+		TheLog.Fill_Logs();
+	}
+	FilterResources();
+});
+
 
 			EditSupplierCommand = ReactiveCommand.CreateFromTask(async () =>
 			{
@@ -207,14 +213,14 @@ namespace course_project_filip.ViewModels
 					{
 						string updateProductSql = string.Format("UPDATE Products SET " +
 							"Title = '{0}', " +
-							"Category = '{1}', " +
+							"Capacity= '{1}', " +
 							"Price = '{2}', " +
 							"Quantity = '{3}' " +
 							"WHERE ProductId = '{4}';",
-							result.Title, result.Category, result.Price, result.Quantity, SelectItemp.ProductId);
+							result.Title, result.Capacity, result.Price, result.Quantity, SelectItemp.ProductId);
 
 						// Логіка для логування операції редагування продукту
-						string logSql = string.Format("INSERT INTO Logs (Action, Timestamp) VALUES ('Edited product: {0}', '{1}');",
+						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Edited product: {0}', '{1}');",
 							result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 						Database.Exec_SQL(updateProductSql);
@@ -238,9 +244,10 @@ namespace course_project_filip.ViewModels
 					{
 						string updateResourceSql = string.Format("UPDATE resources SET " +
 							"Title = '{0}', " +
-							"Quantity = '{1}' " +
-							"WHERE ResourceId = '{2}';",
-							result.Title, result.Quantity, SelectItemr.ResourceId);
+							"Quantity = '{1}' " + 
+							"supplier_title = '{2}'"+
+							"WHERE ResourceId = '{3}';",
+							result.Title, result.Quantity,result.SupplierName, SelectItemr.ResourceId);
 						
 						// Логіка для логування операції редагування продукту
 						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Edited product: {0}', '{1}');",
@@ -273,7 +280,7 @@ namespace course_project_filip.ViewModels
 					string deleteProductSql = string.Format("DELETE FROM Products WHERE Title = '{0}';", SelectItemp.Title);
 
 					// Логіка для логування операції видалення продукту
-					string logSql = string.Format("INSERT INTO Logs (action, timestamp) VALUES ('Deleted product: {0}', '{1}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Deleted product: {0}', '{1}');",
 						SelectItemp.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
 					Database.Exec_SQL(deleteProductSql);
@@ -291,7 +298,7 @@ namespace course_project_filip.ViewModels
 					string deleteResourceSql = string.Format("DELETE FROM resources WHERE Title = '{0}';", SelectItemr.Title);
 
 					// Логіка для логування операції видалення продукту
-					string logSql = string.Format("INSERT INTO Logs (action, timestamp) VALUES ('Deleted resources: {0}', '{1}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Deleted resources: {0}', '{1}');",
 						SelectItemr.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
 					Database.Exec_SQL(deleteResourceSql);
@@ -320,7 +327,7 @@ namespace course_project_filip.ViewModels
 			ClearDataCommand = ReactiveCommand.Create(() =>
 			{
 				SearchProductTitle = string.Empty;
-				SearchProductCategory = string.Empty;
+				SearchProductCapacity = string.Empty;
 				SearchMinPrice = null;
 				SearchMaxPrice = null;
 				FilteredProducts = new ObservableCollection<Product>(TheProduct);
@@ -347,11 +354,11 @@ namespace course_project_filip.ViewModels
 			var filtered = TheProduct.Where(p =>
 			{
 				bool matchesName = string.IsNullOrEmpty(SearchProductTitle) || p.Title.Contains(SearchProductTitle, StringComparison.OrdinalIgnoreCase);
-				bool matchesCategory = string.IsNullOrEmpty(SearchProductCategory) || p.Category.Contains(SearchProductCategory, StringComparison.OrdinalIgnoreCase);
+				bool matchesCapacity = string.IsNullOrEmpty(SearchProductCapacity) || int.TryParse(SearchProductCapacity, out int capacity) && p.Capacity == capacity;
 				bool matchesMinPrice = string.IsNullOrEmpty(SearchMinPrice) || p.Price >= decimal.Parse(SearchMinPrice);
 				bool matchesMaxPrice = string.IsNullOrEmpty(SearchMaxPrice) || p.Price <= decimal.Parse(SearchMaxPrice);
 
-				return matchesName && matchesCategory && matchesMinPrice && matchesMaxPrice;
+				return matchesName && matchesCapacity && matchesMinPrice && matchesMaxPrice;
 			}).ToList();
 
 			FilteredProducts = new ObservableCollection<Product>(filtered);

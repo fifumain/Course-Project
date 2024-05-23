@@ -11,7 +11,7 @@ namespace course_project_filip
     public void AddProduct(
         int ProductId,
         string Title,
-        string Category,
+        int Capacity,
         decimal Price,
         int Quantity)
     {
@@ -19,7 +19,7 @@ namespace course_project_filip
         {
             ProductId = ProductId,
             Title = Title,
-            Category = Category,
+            Capacity = Capacity,
             Price = Price,
             Quantity = Quantity
         });
@@ -51,11 +51,11 @@ namespace course_project_filip
                             {
                                 int productId = reader.GetInt32(reader.GetOrdinal("Productid"));
                                 string title = reader.GetString(reader.GetOrdinal("Title"));
-                                string category = reader.GetString(reader.GetOrdinal("Category"));
+                                int capacity= reader.GetInt32(reader.GetOrdinal("Capacity"));
                                 decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
                                 int quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
 
-                                AddProduct(productId, title, category, price, quantity);
+                                AddProduct(productId, title, capacity, price, quantity);
                             }
                         }
                     }

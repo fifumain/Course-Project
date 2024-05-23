@@ -28,7 +28,7 @@ public partial class AddProduct : ReactiveWindow<AddProductViewModel>
 		if (ViewModel!.mode == "edit")
 		{
 			ViewModel!.Title = ViewModel!.ProductItem.Title;
-			ViewModel!.Category = ViewModel!.ProductItem.Category;
+			ViewModel!.Capacity = ViewModel!.ProductItem.Capacity;
 			ViewModel!.Price = ViewModel!.ProductItem.Price;
 			ViewModel!.Quantity= ViewModel!.ProductItem.Quantity;
 			

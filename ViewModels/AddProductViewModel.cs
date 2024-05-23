@@ -23,7 +23,7 @@ namespace course_project_filip.ViewModels
 			{
 				ProductItem = new Product();
 				ProductItem.Title= Title;
-				ProductItem.Category = Category;
+				ProductItem.Capacity = Capacity;
 				ProductItem.Price = Price;
 				ProductItem.Quantity = Quantity;
 				return ProductItem;
@@ -44,15 +44,15 @@ namespace course_project_filip.ViewModels
 			}
 		}
 
-		string _category = "";
-		public string Category
+		int _capacity = 0;
+		public int Capacity
 		{
-			get { return _category; }
+			get { return _capacity; }
 			set
 			{
-				if (_category != value)
+				if (_capacity != value)
 				{
-					this.RaiseAndSetIfChanged(ref _category, value);
+					this.RaiseAndSetIfChanged(ref _capacity, value);
 				}
 			}
 		}
