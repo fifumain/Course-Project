@@ -119,7 +119,7 @@ namespace course_project_filip.ViewModels
 					string sql = string.Format("INSERT INTO Supplier (title, info) " +
 							"VALUES ('{0}', '{1}');",
 							 result.Title, result.Info);
-					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Added Supplier: {0} {1}', '{2}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Додано постачальника: {0} {1}', '{2}');",
 							result.Title, result.Info, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 					Database.Exec_SQL(sql);
@@ -141,7 +141,7 @@ namespace course_project_filip.ViewModels
 						result.Title, result.Capacity, result.Price, result.Quantity);
 
 					// Логіка для логування операції додавання продукту
-					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Added product: {0}', '{1}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Додано продукт: {0}', '{1}');",
 						result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 					Database.Exec_SQL(insertProductSql);
@@ -169,7 +169,7 @@ namespace course_project_filip.ViewModels
 			result.Title,  result.Quantity, result.SupplierName);
 
 		// Логіка для логування операції додавання ресурсу
-		string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Added resource: {0}', '{1}');",
+		string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Додано матеріал: {0}', '{1}');",
 			result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 		Database.Exec_SQL(insertResourceSql);
@@ -194,7 +194,10 @@ namespace course_project_filip.ViewModels
 						string sql = string.Format("UPDATE Supplier SET Title = '{0}', " +
 							"Info = '{1}' WHERE Id = '{2}';",
 							result.Title, result.Info, SelectItem.Id);
+						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Змінено постачальника: {0}', '{1}');",
+							result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 						Database.Exec_SQL(sql);
+						Database.Exec_SQL(logSql);
 						TheSupplier.FillSupplier();
 						TheLog.Fill_Logs();
 					}
@@ -220,7 +223,7 @@ namespace course_project_filip.ViewModels
 							result.Title, result.Capacity, result.Price, result.Quantity, SelectItemp.ProductId);
 
 						// Логіка для логування операції редагування продукту
-						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Edited product: {0}', '{1}');",
+						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Змінено продукт: {0}', '{1}');",
 							result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 						Database.Exec_SQL(updateProductSql);
@@ -244,13 +247,13 @@ namespace course_project_filip.ViewModels
 					{
 						string updateResourceSql = string.Format("UPDATE resources SET " +
 							"Title = '{0}', " +
-							"Quantity = '{1}' " + 
-							"supplier_title = '{2}'"+
+							"Quantity = '{1}', " + 
+							"supplier_title = '{2}' "+
 							"WHERE ResourceId = '{3}';",
-							result.Title, result.Quantity,result.SupplierName, SelectItemr.ResourceId);
+							result.Title, result.Quantity, result.SupplierName, SelectItemr.ResourceId);
 						
 						// Логіка для логування операції редагування продукту
-						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Edited product: {0}', '{1}');",
+						string logSql = string.Format("INSERT INTO Logs (text, Timestamp) VALUES ('Змінено ресурс: {0}', '{1}');",
 							result.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm"));
 
 						Database.Exec_SQL(updateResourceSql);
@@ -267,10 +270,14 @@ namespace course_project_filip.ViewModels
 				if (SelectItem != null)
 				{
 					string sql = string.Format("DELETE FROM Supplier WHERE Title = '{0}';", SelectItem.Title);
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Видалено постачальника: {0}', '{1}');",
+						SelectItemp.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 					Database.Exec_SQL(sql);
+					Database.Exec_SQL(logSql);
 					TheSupplier.FillSupplier();
 					TheLog.Fill_Logs();
 				}
+				
 			});
 
 			DeleteProductCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -280,7 +287,7 @@ namespace course_project_filip.ViewModels
 					string deleteProductSql = string.Format("DELETE FROM Products WHERE Title = '{0}';", SelectItemp.Title);
 
 					// Логіка для логування операції видалення продукту
-					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Deleted product: {0}', '{1}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Видалено продукт: {0}', '{1}');",
 						SelectItemp.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
 					Database.Exec_SQL(deleteProductSql);
@@ -298,7 +305,7 @@ namespace course_project_filip.ViewModels
 					string deleteResourceSql = string.Format("DELETE FROM resources WHERE Title = '{0}';", SelectItemr.Title);
 
 					// Логіка для логування операції видалення продукту
-					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Deleted resources: {0}', '{1}');",
+					string logSql = string.Format("INSERT INTO Logs (text, timestamp) VALUES ('Видалено матеріал: {0}', '{1}');",
 						SelectItemr.Title, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
 					Database.Exec_SQL(deleteResourceSql);

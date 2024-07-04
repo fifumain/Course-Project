@@ -7,7 +7,7 @@
         x:Class="course_project_filip.AddProduct"
 		xmlns:vm="using:course_project_filip.ViewModels"
 		x:DataType="vm:AddProductViewModel"	
-        Title="AddProduct">
+        Title="Повербанк">
 	
 	<Grid ColumnDefinitions="160, 3, Auto"
 			  RowDefinitions="Auto,Auto,Auto,Auto,Auto, *"
